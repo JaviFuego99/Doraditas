@@ -320,7 +320,7 @@ details.dia .mov{border-width:1px}
 /* =========================================================
    CONFIGURACIÓN: URL de tu Apps Script (/exec)
    ========================================================= */
-const API_URL = "https://script.google.com/macros/s/AKfycbwYtJbFCbclqnhtFyOjx9n6LjVuSNpTcJ_0puenA0mQirQ4BXIyeeeGy-K121oPt7RdFg/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbysL3KtjpIwlNw5rIEkQtvOg353_xAHiYa_0e4WkvY-SgpNkgcCBnLczmW5buw_eJZyFg/exec";
 
 (function(){
 "use strict";
@@ -656,7 +656,7 @@ function pintarNube(){
   if(!API_URL.startsWith("https://")){ txt = "⚠️ Falta conectar la hoja"; cls = "mal"; }
   else if(sincronizando){ txt = "⏳ Guardando…"; cls = "falta"; }
   else if(f && estado==="sinred"){ txt = "📵 Sin internet, se guarda después"; cls = "falta"; }
-  else if(f && estado==="error"){ txt = "⚠️ No se pudo guardar, se intenta otra vez"; cls = "mal"; }
+  else if(f && estado==="error"){ txt = "⚠️ No se pudo conectar con la hoja"; cls = "mal"; }
   else if(f){ txt = "⏳ Falta subir "+f; cls = "falta"; }
   else { txt = "☁️ Todo guardado"; cls = "ok"; }
   n.textContent = txt; n.className = "nube "+cls;
@@ -685,7 +685,7 @@ async function sincronizar(){
       guardarLocal();
       if(actual==="inicio" || actual==="meses" || actual==="mes") pintar(actual);
     }
-  }catch(e){ estado = "sinred"; }
+  }catch(e){ estado = navigator.onLine === false ? "sinred" : "error"; }
   sincronizando = false; pintarNube();
   if(estado==="ok" && S.pend.length) setTimeout(sincronizar, 500);
 }
