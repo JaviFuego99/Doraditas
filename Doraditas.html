@@ -1,0 +1,742 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#E9A21F">
+<title>Mis doraditas</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍪</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FFF4DE; --surface:#FFFFFF; --ink:#2A1E14; --muted:#7A6450; --line:#EAD9BB;
+  --oro:#E9A21F; --oro-suave:#FCE3AE;
+  --verde:#2E8B3E; --on-verde:#FFFFFF; --verde-suave:#DDF1DF;
+  --rojo:#C9381F; --on-rojo:#FFFFFF; --rojo-suave:#F9DDD6;
+  --sombra:0 3px 0 rgba(90,55,10,.18);
+  color-scheme:light;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#17110B; --surface:#251C14; --ink:#FFF1DA; --muted:#C2AA8A; --line:#3B2E21;
+    --oro:#F2B33D; --oro-suave:#3B2B12;
+    --verde:#4CC25E; --on-verde:#0D2411; --verde-suave:#173119;
+    --rojo:#FF6E50; --on-rojo:#2E0B04; --rojo-suave:#3B1A12;
+    --sombra:0 3px 0 rgba(0,0,0,.45);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#17110B; --surface:#251C14; --ink:#FFF1DA; --muted:#C2AA8A; --line:#3B2E21;
+  --oro:#F2B33D; --oro-suave:#3B2B12;
+  --verde:#4CC25E; --on-verde:#0D2411; --verde-suave:#173119;
+  --rojo:#FF6E50; --on-rojo:#2E0B04; --rojo-suave:#3B1A12;
+  --sombra:0 3px 0 rgba(0,0,0,.45);
+  color-scheme:dark;
+}
+html{font-size:18px; scroll-padding-top:env(safe-area-inset-top,0px); -webkit-text-size-adjust:100%}
+html.grande{font-size:21px}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0; background:var(--bg); color:var(--ink);
+  font-family:"Baloo 2","Nunito","Segoe UI",Roboto,system-ui,sans-serif;
+  line-height:1.3; -webkit-tap-highlight-color:transparent; overscroll-behavior-y:contain}
+button,input{font:inherit; color:inherit}
+button{cursor:pointer; border:0; background:none; touch-action:manipulation}
+button:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--oro); outline-offset:3px}
+.app{max-width:480px; margin:0 auto; padding:14px 16px 32px}
+.pantalla[hidden]{display:none}
+
+.top{display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:10px}
+.fecha{font-size:1.05rem; font-weight:600; color:var(--muted); margin:0}
+.icono-btn{width:52px; height:52px; border-radius:16px; background:var(--surface); border:2px solid var(--line);
+  font-size:1.5rem; display:grid; place-items:center; flex:none}
+.regresar{display:flex; align-items:center; gap:8px; height:52px; padding:0 18px 0 12px; border-radius:16px;
+  background:var(--surface); border:2px solid var(--line); font-weight:700; font-size:1.05rem}
+h1{font-size:1.7rem; line-height:1.1; margin:4px 0 14px; font-weight:800}
+h2{font-size:1.25rem; margin:24px 0 10px; font-weight:800}
+
+/* Estado de conexión */
+.nube{display:inline-flex; align-items:center; gap:6px; font-size:.88rem; font-weight:700; padding:4px 12px;
+  border-radius:99px; background:var(--surface); border:2px solid var(--line); color:var(--muted)}
+.nube.ok{color:var(--verde)} .nube.falta{color:var(--oro)} .nube.mal{color:var(--rojo)}
+.centro{text-align:center; margin:-6px 0 14px}
+
+/* El comal */
+.comal{position:relative; margin:4px auto 18px; width:min(74vw,280px); aspect-ratio:1; border-radius:50%;
+  background:radial-gradient(circle at 38% 34%, #FFE29A 0 18%, #F6C14E 46%, #E29A1C 78%, #B66F0E 100%);
+  box-shadow:inset 0 -8px 0 rgba(120,60,0,.25), 0 10px 0 var(--line);
+  display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; color:#3A2204}
+.comal::before{content:""; position:absolute; inset:9%; border-radius:50%; border:3px dashed rgba(255,255,255,.55)}
+.comal .et{font-size:1.05rem; font-weight:700; position:relative}
+.comal .num{font-size:3.1rem; font-weight:800; line-height:1; letter-spacing:-.02em; position:relative; margin:4px 0}
+.comal .sub{font-size:.95rem; font-weight:600; position:relative; max-width:70%}
+.comal.vacio .num{font-size:2.2rem}
+
+.pastillas{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:10px}
+.pastilla{border-radius:18px; padding:10px 12px; font-weight:700}
+.pastilla .k{font-size:.9rem; display:block}
+.pastilla .v{font-size:1.5rem; font-weight:800; display:block; line-height:1.1}
+.pastilla .n{font-size:.85rem; font-weight:600; display:block}
+.pastilla.v-in{background:var(--verde-suave); color:var(--verde)}
+.pastilla.v-out{background:var(--rojo-suave); color:var(--rojo)}
+.mes-btn{width:100%; display:flex; align-items:center; gap:12px; text-align:left; background:var(--oro-suave);
+  border-radius:18px; padding:10px 14px; margin-bottom:18px; font-weight:600}
+.mes-btn .e{font-size:1.8rem}
+.mes-btn b{font-weight:800}
+.mes-btn .fl{margin-left:auto; font-size:1.3rem; color:var(--muted)}
+
+.grandes{display:grid; gap:14px}
+.gran{display:flex; align-items:center; gap:16px; width:100%; min-height:104px; padding:12px 20px; border-radius:26px;
+  font-size:1.9rem; font-weight:800; text-align:left; box-shadow:var(--sombra); transition:transform .08s}
+.gran:active{transform:translateY(3px); box-shadow:none}
+.gran .emo{font-size:3rem; line-height:1; width:64px; height:64px; display:grid; place-items:center;
+  background:rgba(255,255,255,.22); border-radius:20px; flex:none}
+.gran small{display:block; font-size:1rem; font-weight:600; opacity:.9; line-height:1.15}
+.gran.vender{background:var(--verde); color:var(--on-verde)}
+.gran.comprar{background:var(--rojo); color:var(--on-rojo)}
+.secundario{width:100%; min-height:60px; border-radius:18px; background:var(--surface); border:2px solid var(--line);
+  font-weight:700; font-size:1.1rem; margin-top:14px; display:flex; align-items:center; justify-content:center; gap:10px}
+
+.lista{display:grid; gap:8px; margin:0; padding:0; list-style:none}
+.mov{display:flex; align-items:center; gap:12px; background:var(--surface); border:2px solid var(--line);
+  border-radius:18px; padding:8px 8px 8px 10px}
+.mov .em{font-size:1.8rem; width:50px; height:50px; border-radius:14px; display:grid; place-items:center; flex:none}
+.mov.v .em{background:var(--verde-suave)} .mov.c .em{background:var(--rojo-suave)}
+.mov .tx{flex:1; min-width:0}
+.mov .tx b{display:block; font-size:1.05rem; line-height:1.15}
+.mov .tx span{font-size:.88rem; color:var(--muted)}
+.mov .m{font-weight:800; font-size:1.25rem; white-space:nowrap}
+.mov.v .m{color:var(--verde)} .mov.c .m{color:var(--rojo)}
+.borrar{width:44px; height:44px; border-radius:12px; font-size:1.2rem; display:grid; place-items:center; flex:none; opacity:.75}
+.vacio-msg{background:var(--surface); border:2px dashed var(--line); border-radius:18px; padding:18px; text-align:center;
+  color:var(--muted); font-weight:600}
+
+/* Vender */
+.productos{display:flex; gap:10px; overflow-x:auto; padding-bottom:6px; margin-bottom:12px; scrollbar-width:none}
+.prod{flex:0 0 auto; min-width:120px; border-radius:20px; padding:10px 14px; background:var(--surface);
+  border:3px solid var(--line); text-align:center; font-weight:700}
+.prod .e{font-size:2.2rem; display:block; line-height:1.1}
+.prod .p{font-size:.9rem; color:var(--muted); display:block}
+.prod[aria-pressed="true"]{border-color:var(--verde); background:var(--verde-suave)}
+.contador{display:grid; grid-template-columns:96px 1fr 96px; align-items:center; gap:10px; margin:6px 0 12px}
+.cbtn{height:96px; border-radius:26px; font-size:3rem; font-weight:800; line-height:1; box-shadow:var(--sombra)}
+.cbtn:active{transform:translateY(3px); box-shadow:none}
+.cbtn:disabled{opacity:.35}
+.cbtn.menos{background:var(--surface); border:2px solid var(--line)}
+.cbtn.mas{background:var(--oro); color:#3A2204}
+.cuenta{text-align:center}
+.cuenta .n{font-size:4.6rem; font-weight:800; line-height:.95; display:block}
+.cuenta .l{font-size:1rem; font-weight:700; color:var(--muted)}
+.rapidos{display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:16px}
+.rapido{height:56px; border-radius:16px; background:var(--surface); border:2px solid var(--line); font-weight:800; font-size:1.3rem}
+.rapido[aria-pressed="true"]{border-color:var(--oro); background:var(--oro-suave)}
+.total{display:flex; justify-content:space-between; align-items:baseline; background:var(--surface); border:2px solid var(--line);
+  border-radius:20px; padding:12px 18px; margin-bottom:14px; font-weight:700}
+.total .v{font-size:2.4rem; font-weight:800; color:var(--verde); line-height:1}
+.guardar{width:100%; min-height:84px; border-radius:24px; font-size:1.7rem; font-weight:800; box-shadow:var(--sombra)}
+.guardar:active{transform:translateY(3px); box-shadow:none}
+.guardar.g-v{background:var(--verde); color:var(--on-verde)}
+.guardar.g-c{background:var(--rojo); color:var(--on-rojo)}
+.guardar:disabled{opacity:.4; box-shadow:none}
+
+/* Comprar */
+.insumos{display:grid; grid-template-columns:repeat(3,1fr); gap:10px}
+.ins{aspect-ratio:1/1.02; border-radius:20px; background:var(--surface); border:2px solid var(--line);
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px; font-weight:700;
+  font-size:.95rem; line-height:1.1; text-align:center; padding:4px; box-shadow:var(--sombra)}
+.ins:active{transform:translateY(3px); box-shadow:none}
+.ins .e{font-size:2.5rem; line-height:1.1}
+.elegido{display:flex; align-items:center; gap:14px; background:var(--rojo-suave); border-radius:20px; padding:10px 14px; margin-bottom:12px}
+.elegido .e{font-size:2.6rem}
+.elegido b{font-size:1.35rem; display:block; line-height:1.1}
+.elegido button{margin-left:auto; font-weight:700; color:var(--rojo); padding:10px; font-size:1rem}
+.pantallita{background:var(--surface); border:2px solid var(--line); border-radius:20px; padding:10px 18px; text-align:right; margin-bottom:12px}
+.pantallita .l{display:block; text-align:left; font-weight:700; color:var(--muted); font-size:.95rem}
+.pantallita .v{font-size:3.2rem; font-weight:800; line-height:1.05; color:var(--rojo)}
+.teclado{display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:14px}
+.tecla{height:64px; border-radius:16px; background:var(--surface); border:2px solid var(--line); font-size:1.8rem; font-weight:800}
+.tecla:active{background:var(--oro-suave)}
+
+/* Meses */
+.anio{display:flex; align-items:center; justify-content:space-between; margin-bottom:10px}
+.anio b{font-size:1.6rem; font-weight:800}
+.anio button{width:56px; height:52px; border-radius:16px; background:var(--surface); border:2px solid var(--line); font-size:1.4rem; font-weight:800}
+.anio button:disabled{opacity:.3}
+.grafica{background:var(--surface); border:2px solid var(--line); border-radius:22px; padding:12px 8px 8px}
+.barras{display:grid; grid-template-columns:repeat(12,1fr); gap:3px; align-items:end; height:170px}
+.col{display:flex; flex-direction:column; align-items:center; justify-content:flex-end; height:100%; gap:3px; min-width:0}
+.col .val{font-size:.62rem; font-weight:800; color:var(--verde); white-space:nowrap; writing-mode:vertical-rl; transform:rotate(180deg)}
+.col .bar{width:100%; max-width:24px; border-radius:7px 7px 3px 3px; background:var(--verde); min-height:3px}
+.col .bar.cero{background:var(--line)}
+.col.actual .bar{background:var(--oro)}
+.meses-et{display:grid; grid-template-columns:repeat(12,1fr); gap:3px; text-align:center; font-size:.72rem; font-weight:700;
+  color:var(--muted); border-top:2px solid var(--line); padding-top:5px; margin-top:4px}
+.meses-et .actual{color:var(--ink)}
+.res{width:100%; text-align:left; background:var(--surface); border:2px solid var(--line); border-radius:20px; padding:12px 16px; margin-bottom:10px; display:block}
+.res.actual{border-color:var(--oro)}
+.res h3{margin:0 0 6px; font-size:1.25rem; display:flex; justify-content:space-between; align-items:center}
+.res h3 small{font-size:.85rem; font-weight:700; color:var(--muted)}
+.fila{display:flex; justify-content:space-between; font-weight:600; font-size:1rem; padding:2px 0}
+.fila b{font-weight:800}
+.fila.in b{color:var(--verde)} .fila.out b{color:var(--rojo)}
+.fila.tot{border-top:2px dashed var(--line); margin-top:4px; padding-top:6px; font-size:1.15rem}
+details.dia{background:var(--surface); border:2px solid var(--line); border-radius:20px; margin-bottom:8px; overflow:hidden}
+details.dia summary{list-style:none; display:flex; justify-content:space-between; align-items:center; gap:10px; padding:12px 16px; font-weight:700; cursor:pointer}
+details.dia summary::-webkit-details-marker{display:none}
+details.dia summary .q{font-weight:800; font-size:1.15rem}
+details.dia summary .flecha{display:inline-block; transition:transform .15s; color:var(--muted)}
+details.dia[open] summary .flecha{transform:rotate(90deg)}
+details.dia .lista{padding:0 8px 10px}
+details.dia .mov{border-width:1px}
+
+/* Ajustes */
+.ajuste{background:var(--surface); border:2px solid var(--line); border-radius:20px; padding:12px 14px; margin-bottom:10px}
+.dos{display:grid; grid-template-columns:1fr 1fr; gap:8px}
+.opcion{min-height:58px; border-radius:16px; border:3px solid var(--line); font-weight:700}
+.opcion[aria-pressed="true"]{border-color:var(--oro); background:var(--oro-suave)}
+.prod-edit{display:grid; grid-template-columns:62px 1fr; gap:8px 10px; align-items:center}
+.prod-edit .emo-btn{grid-row:span 2; width:62px; height:62px; border-radius:16px; background:var(--oro-suave); font-size:2.2rem}
+.campo{display:flex; align-items:center; gap:8px; font-weight:600; color:var(--muted); font-size:.95rem}
+.campo input{flex:1; min-width:0; height:48px; border-radius:12px; border:2px solid var(--line); background:var(--bg); padding:0 12px; font-size:1.1rem; font-weight:700; color:var(--ink)}
+.campo.precio input{max-width:110px}
+.quitar{color:var(--rojo); font-weight:700; padding:8px 4px; font-size:.95rem; margin-top:4px}
+.peligro{width:100%; min-height:56px; border-radius:16px; border:2px solid var(--rojo); color:var(--rojo); font-weight:700; margin-top:18px}
+.nota{color:var(--muted); font-size:.92rem; font-weight:500; margin:14px 4px 0}
+
+.capa{position:fixed; inset:0; z-index:20; display:grid; place-items:center; padding:24px; background:rgba(20,12,4,.55)}
+.capa[hidden]{display:none}
+.listo{background:var(--surface); border-radius:28px; padding:26px 24px; text-align:center; width:min(100%,340px); animation:pop .25s ease-out}
+.listo .e{font-size:4.5rem; line-height:1}
+.listo b{display:block; font-size:1.7rem; margin-top:6px}
+.listo span{display:block; font-size:1.15rem; font-weight:600; color:var(--muted)}
+.pregunta{background:var(--surface); border-radius:28px; padding:22px; width:min(100%,360px); text-align:center}
+.pregunta p{font-size:1.25rem; font-weight:700; margin:0 0 16px; white-space:pre-line}
+.pregunta .btns{display:grid; gap:10px}
+.pregunta .si{min-height:64px; border-radius:18px; background:var(--rojo); color:var(--on-rojo); font-weight:800; font-size:1.25rem}
+.pregunta .no{min-height:64px; border-radius:18px; border:2px solid var(--line); font-weight:800; font-size:1.25rem}
+@keyframes pop{from{transform:scale(.85); opacity:0} to{transform:scale(1); opacity:1}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important; transition:none!important}}
+</style>
+</head>
+<body>
+<main class="app">
+
+<!-- INICIO -->
+<section class="pantalla" id="p-inicio">
+  <div class="top">
+    <p class="fecha" id="hoy-fecha"></p>
+    <button class="icono-btn" data-ir="ajustes" aria-label="Ajustes">⚙️</button>
+  </div>
+  <div class="comal" id="comal"></div>
+  <div class="centro"><span class="nube" id="nube"></span></div>
+  <div class="pastillas" id="pastillas"></div>
+  <button class="mes-btn" data-ir="meses" id="mes-btn"></button>
+  <div class="grandes">
+    <button class="gran vender" data-ir="vender"><span class="emo">🍪</span><span>Vendí<small>Anotar una venta</small></span></button>
+    <button class="gran comprar" data-ir="comprar"><span class="emo">🛒</span><span>Compré<small>Anotar un gasto</small></span></button>
+  </div>
+  <h2>Lo de hoy</h2>
+  <ul class="lista" id="lista-hoy"></ul>
+  <button class="secundario" data-ir="meses">📅 Ver mis ventas por mes</button>
+</section>
+
+<!-- VENDER -->
+<section class="pantalla" id="p-vender" hidden>
+  <div class="top"><button class="regresar" data-ir="inicio">⬅️ Regresar</button></div>
+  <h1>¿Cuántas vendiste?</h1>
+  <div class="productos" id="productos"></div>
+  <div class="contador">
+    <button class="cbtn menos" id="menos" aria-label="Una menos">−</button>
+    <div class="cuenta"><span class="n" id="cuenta">1</span><span class="l" id="cuenta-l">doradita</span></div>
+    <button class="cbtn mas" id="mas" aria-label="Una más">+</button>
+  </div>
+  <div class="rapidos" id="rapidos"></div>
+  <div class="total"><span>Cobraste</span><span class="v" id="total-venta">$0</span></div>
+  <button class="guardar g-v" id="guardar-venta">✅ Guardar venta</button>
+</section>
+
+<!-- COMPRAR -->
+<section class="pantalla" id="p-comprar" hidden>
+  <div class="top"><button class="regresar" data-ir="inicio">⬅️ Regresar</button></div>
+  <div id="paso1">
+    <h1>¿Qué compraste?</h1>
+    <div class="insumos" id="insumos"></div>
+  </div>
+  <div id="paso2" hidden>
+    <h1>¿Cuánto pagaste?</h1>
+    <div class="elegido" id="elegido"></div>
+    <div class="pantallita"><span class="l">Pagaste</span><span class="v" id="monto">$0</span></div>
+    <div class="teclado" id="teclado"></div>
+    <button class="guardar g-c" id="guardar-compra" disabled>✅ Guardar compra</button>
+  </div>
+</section>
+
+<!-- MESES -->
+<section class="pantalla" id="p-meses" hidden>
+  <div class="top"><button class="regresar" data-ir="inicio">⬅️ Regresar</button></div>
+  <h1>📅 Mis ventas por mes</h1>
+  <div class="anio"><button id="anio-menos" aria-label="Año anterior">‹</button><b id="anio"></b><button id="anio-mas" aria-label="Año siguiente">›</button></div>
+  <div class="grafica">
+    <div class="barras" id="barras"></div>
+    <div class="meses-et" id="meses-et"></div>
+  </div>
+  <p class="nota" style="margin-top:6px">Cada barra es lo que vendiste en ese mes. Toca un mes para ver sus días.</p>
+  <h2 id="anio-titulo"></h2>
+  <div id="meses-lista"></div>
+</section>
+
+<!-- UN MES -->
+<section class="pantalla" id="p-mes" hidden>
+  <div class="top"><button class="regresar" data-ir="meses">⬅️ Regresar</button></div>
+  <h1 id="mes-titulo"></h1>
+  <div id="mes-resumen"></div>
+  <h2>Día por día</h2>
+  <div id="mes-dias"></div>
+</section>
+
+<!-- AJUSTES -->
+<section class="pantalla" id="p-ajustes" hidden>
+  <div class="top"><button class="regresar" data-ir="inicio">⬅️ Regresar</button></div>
+  <h1>⚙️ Ajustes</h1>
+  <h2>Tamaño de letra</h2>
+  <div class="dos">
+    <button class="opcion" data-tam="normal">Normal</button>
+    <button class="opcion" data-tam="grande" style="font-size:1.2rem">Grande</button>
+  </div>
+  <h2>Lo que vendo y su precio</h2>
+  <div id="prod-edit"></div>
+  <button class="secundario" id="agregar-prod">➕ Agregar otro tipo</button>
+  <p class="nota">Toca el dibujito para cambiarlo. Los cambios se guardan solos.</p>
+  <h2>Guardado en internet</h2>
+  <div class="ajuste">
+    <p style="margin:0 0 8px; font-weight:700" id="nube-detalle"></p>
+    <button class="secundario" style="margin-top:0" id="subir-ahora">🔄 Subir ahora</button>
+  </div>
+  <button class="peligro" id="borrar-todo">🗑️ Borrar todas mis cuentas</button>
+</section>
+
+</main>
+
+<div class="capa" id="capa-listo" hidden><div class="listo" id="listo"></div></div>
+<div class="capa" id="capa-pregunta" hidden>
+  <div class="pregunta"><p id="pregunta-t"></p>
+    <div class="btns"><button class="si" id="pregunta-si">Sí, borrar</button><button class="no" id="pregunta-no">No, dejarlo</button></div>
+  </div>
+</div>
+
+<script>
+/* =========================================================
+   CONFIGURACIÓN: pega aquí la URL de tu Apps Script (/exec)
+   ========================================================= */
+const API_URL = "https://script.google.com/macros/s/AKfycbwYtJbFCbclqnhtFyOjx9n6LjVuSNpTcJ_0puenA0mQirQ4BXIyeeeGy-K121oPt7RdFg/exec";
+
+(function(){
+"use strict";
+const $ = s => document.querySelector(s);
+const CLAVE_LS = "doraditas-gas-v1";
+const EMOJIS_PROD = ["🍪","🥐","🍞","🧁","🍩","🥨","🫓","🍯"];
+const INSUMOS = [
+  {e:"🌾", n:"Harina"},
+  {e:"🍬", n:"Azúcar"},
+  {e:"🧈", n:"Manteca o mantequilla"},
+  {e:"🥚", n:"Huevo"},
+  {e:"🥛", n:"Leche"},
+  {e:"🫙", n:"Royal o levadura"},
+  {e:"🌰", n:"Canela y vainilla"},
+  {e:"🛢️", n:"Aceite"},
+  {e:"🔥", n:"Gas"},
+  {e:"🛍️", n:"Bolsas"},
+  {e:"🚌", n:"Pasaje"},
+  {e:"🧾", n:"Otra cosa"}
+];
+const RAPIDOS = [2,3,4,5];
+const MESES = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
+
+/* ---------- Clave: llega una vez en el enlace (#clave=...) ---------- */
+(function leerClaveDelEnlace(){
+  const m = location.hash.match(/clave=([\w-]+)/);
+  if(m){ try{ localStorage.setItem(CLAVE_LS+"-clave", m[1]); }catch(e){}
+         history.replaceState(null, "", location.pathname + location.search); }
+})();
+function clave(){ try{ return localStorage.getItem(CLAVE_LS+"-clave") || ""; }catch(e){ return ""; } }
+
+/* ---------- Datos locales ---------- */
+function nuevo(){ return {productos:[{id:"p1",nombre:"Doraditas",emoji:"🍪",precio:10}], prodUpd:0, movs:[], pend:[], tam:"normal", ultSync:0}; }
+function cargar(){
+  try{ const r = localStorage.getItem(CLAVE_LS); if(r) return Object.assign(nuevo(), JSON.parse(r)); }catch(e){}
+  return nuevo();
+}
+let S = cargar();
+function guardarLocal(){ try{ localStorage.setItem(CLAVE_LS, JSON.stringify(S)); }catch(e){} }
+
+/* Aplica una operación a la lista local */
+function aplicar(op){
+  if(op.op==="agregar"){ if(!S.movs.some(m=>m.id===op.mov.id)) S.movs.push(op.mov); }
+  else if(op.op==="borrar"){ S.movs = S.movs.filter(m=>m.id!==op.id); }
+  else if(op.op==="borrarTodo"){ S.movs = []; }
+}
+function hacer(op){ aplicar(op); S.pend.push(op); guardarLocal(); sincronizar(); }
+
+/* ---------- Utilidades ---------- */
+const dosD = n => String(n).padStart(2,"0");
+function diaDe(d){ d = new Date(d); return d.getFullYear()+"-"+dosD(d.getMonth()+1)+"-"+dosD(d.getDate()); }
+function fechaDeDia(k){ const [y,m,d] = k.split("-").map(Number); return new Date(y,m-1,d); }
+const peso = n => (n<0?"−":"") + "$" + Math.round(Math.abs(n)).toLocaleString("es-MX");
+function corto(n){ return n>=1000 ? "$"+(n/1000).toFixed(n>=10000?0:1).replace(".0","")+" mil" : "$"+Math.round(n); }
+const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
+function vibrar(ms){ try{ navigator.vibrate && navigator.vibrate(ms); }catch(e){} }
+function el(tag, cls, txt){ const x = document.createElement(tag); if(cls) x.className = cls; if(txt!=null) x.textContent = txt; return x; }
+function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,7); }
+const piezas = n => n===1 ? "1 doradita" : n.toLocaleString("es-MX")+" doraditas";
+function sumar(movs){
+  let v=0,c=0,n=0,nc=0;
+  for(const m of movs){ if(m.t==="v"){ v+=m.monto; n+=m.cant; } else { c+=m.monto; nc++; } }
+  return {v,c,n,nc,g:v-c};
+}
+function emojiDe(m){
+  if(m.t==="v"){ const p = S.productos.find(x=>x.nombre===m.que); return p ? p.emoji : "🍪"; }
+  const i = INSUMOS.find(x=>x.n===m.que); return i ? i.e : "🧾";
+}
+
+/* ---------- Navegación ---------- */
+let actual = "inicio", mesAbierto = null, anioVisto = new Date().getFullYear();
+function ir(p){
+  actual = p;
+  document.querySelectorAll(".pantalla").forEach(s => s.hidden = s.id !== "p-"+p);
+  pintar(p, true);
+  window.scrollTo(0,0);
+}
+function pintar(p, entrando){
+  if(p==="inicio") pintarInicio();
+  if(p==="vender" && entrando) abrirVender();
+  if(p==="comprar" && entrando) abrirComprar();
+  if(p==="meses") pintarMeses();
+  if(p==="mes") pintarMes();
+  if(p==="ajustes") pintarAjustes();
+}
+document.addEventListener("click", e => { const b = e.target.closest("[data-ir]"); if(b){ vibrar(15); ir(b.dataset.ir); } });
+
+/* ---------- Fila de movimiento ---------- */
+function filaMov(m){
+  const li = el("li","mov "+m.t);
+  const titulo = m.t==="v"
+    ? "Vendiste " + piezas(m.cant) + (S.productos.length>1 ? " ("+m.que.toLowerCase()+")" : "")
+    : "Compraste " + m.que.toLowerCase();
+  li.append(el("span","em",emojiDe(m)));
+  const tx = el("span","tx"); tx.append(el("b",null,titulo), el("span",null,m.hora)); li.append(tx);
+  li.append(el("span","m",(m.t==="v"?"+":"−")+peso(m.monto)));
+  const b = el("button","borrar","🗑️"); b.setAttribute("aria-label","Borrar esto");
+  b.onclick = () => preguntar("¿Borrar esto?\n"+titulo+" por "+peso(m.monto), () => { hacer({op:"borrar", id:m.id}); pintar(actual); });
+  li.append(b);
+  return li;
+}
+
+/* ---------- Inicio ---------- */
+function pintarInicio(){
+  const ahora = new Date(), hoy = diaDe(ahora), mes = hoy.slice(0,7);
+  $("#hoy-fecha").textContent = "Hoy es " + ahora.toLocaleDateString("es-MX",{weekday:"long",day:"numeric",month:"long"});
+  const movs = S.movs.filter(m => m.fecha===hoy).sort((a,b)=>b.ts-a.ts);
+  const r = sumar(movs);
+  const comal = $("#comal"); comal.replaceChildren(); comal.classList.toggle("vacio", !movs.length);
+  if(!movs.length) comal.append(el("span","et","Hoy llevas"), el("span","num","$0"), el("span","sub","Toca Vendí o Compré para empezar"));
+  else if(r.g>=0) comal.append(el("span","et","Hoy te quedó"), el("span","num",peso(r.g)), el("span","sub","de ganancia"));
+  else comal.append(el("span","et","Hoy llevas"), el("span","num",peso(r.g)), el("span","sub","gastaste más de lo que vendiste"));
+
+  const p = $("#pastillas"); p.replaceChildren();
+  const a = el("div","pastilla v-in"); a.append(el("span","k","🟢 Vendiste"), el("span","v",peso(r.v)), el("span","n",piezas(r.n)));
+  const b = el("div","pastilla v-out"); b.append(el("span","k","🔴 Gastaste"), el("span","v",peso(r.c)), el("span","n",r.nc===1?"1 compra":r.nc+" compras"));
+  p.append(a,b);
+
+  const rm = sumar(S.movs.filter(m=>m.fecha.slice(0,7)===mes));
+  const mb = $("#mes-btn"); mb.replaceChildren();
+  const t = el("span");
+  t.append(document.createTextNode("En "+MESES[ahora.getMonth()]+" llevas "), el("b",null,peso(rm.v)),
+           document.createTextNode(" vendidos y te "+(rm.g>=0?"quedan ":"faltan ")), el("b",null,peso(Math.abs(rm.g))));
+  mb.append(el("span","e","📅"), t, el("span","fl","›"));
+
+  const l = $("#lista-hoy"); l.replaceChildren();
+  if(!movs.length) l.append(el("li","vacio-msg","Todavía no anotas nada hoy."));
+  else movs.forEach(m => l.append(filaMov(m)));
+  pintarNube();
+}
+
+/* ---------- Vender ---------- */
+let venta = {prod:null, cant:1};
+function abrirVender(){
+  if(!S.productos.find(p=>p.id===venta.prod)) venta.prod = S.productos[0].id;
+  venta.cant = 1;
+  const cont = $("#productos"); cont.replaceChildren();
+  cont.hidden = S.productos.length < 2;
+  S.productos.forEach(p => {
+    const b = el("button","prod"); b.setAttribute("aria-pressed", p.id===venta.prod);
+    b.append(el("span","e",p.emoji), el("span",null,p.nombre), el("span","p","a "+peso(p.precio)+" c/u"));
+    b.onclick = () => { venta.prod = p.id; vibrar(15); cont.querySelectorAll(".prod").forEach(x=>x.setAttribute("aria-pressed", x===b)); pintarVenta(); };
+    cont.append(b);
+  });
+  const r = $("#rapidos"); r.replaceChildren();
+  RAPIDOS.forEach(n => { const b = el("button","rapido",String(n)); b.dataset.n = n; b.onclick = () => { venta.cant = n; vibrar(15); pintarVenta(); }; r.append(b); });
+  pintarVenta();
+}
+function pintarVenta(){
+  const p = S.productos.find(x=>x.id===venta.prod);
+  $("#cuenta").textContent = venta.cant;
+  $("#cuenta-l").textContent = venta.cant===1 ? "doradita" : "doraditas";
+  $("#total-venta").textContent = peso(venta.cant * p.precio);
+  document.querySelectorAll(".rapido").forEach(b => b.setAttribute("aria-pressed", Number(b.dataset.n)===venta.cant));
+  $("#menos").disabled = venta.cant<=1;
+}
+$("#mas").onclick = () => { venta.cant++; vibrar(12); pintarVenta(); };
+$("#menos").onclick = () => { if(venta.cant>1){ venta.cant--; vibrar(12); pintarVenta(); } };
+function nuevoMov(extra){
+  const d = new Date();
+  return Object.assign({id:uid(), ts:d.getTime(), fecha:diaDe(d),
+    hora:d.toLocaleTimeString("es-MX",{hour:"numeric",minute:"2-digit"})}, extra);
+}
+$("#guardar-venta").onclick = () => {
+  const p = S.productos.find(x=>x.id===venta.prod);
+  const m = nuevoMov({t:"v", cant:venta.cant, precio:p.precio, monto:venta.cant*p.precio, que:p.nombre});
+  hacer({op:"agregar", mov:m});
+  avisar("💰","¡Venta guardada!", piezas(m.cant)+", "+peso(m.monto));
+  ir("inicio");
+};
+
+/* ---------- Comprar ---------- */
+let compra = {insumo:null, txt:""};
+function abrirComprar(){
+  compra = {insumo:null, txt:""};
+  $("#paso1").hidden = false; $("#paso2").hidden = true;
+  const g = $("#insumos"); g.replaceChildren();
+  INSUMOS.forEach(i => {
+    const b = el("button","ins"); b.append(el("span","e",i.e), el("span",null,i.n));
+    b.onclick = () => { compra.insumo = i; vibrar(15); paso2(); };
+    g.append(b);
+  });
+}
+function paso2(){
+  const i = compra.insumo;
+  $("#paso1").hidden = true; $("#paso2").hidden = false;
+  const e = $("#elegido"); e.replaceChildren();
+  const t = el("span"); t.append(el("b",null,i.n));
+  const c = el("button",null,"Cambiar"); c.onclick = () => { $("#paso1").hidden=false; $("#paso2").hidden=true; };
+  e.append(el("span","e",i.e), t, c);
+  pintarMonto(); window.scrollTo(0,0);
+}
+function pintarMonto(){
+  const n = Number(compra.txt||0);
+  $("#monto").textContent = peso(n);
+  $("#guardar-compra").disabled = n<=0;
+}
+["1","2","3","4","5","6","7","8","9","00","0","⌫"].forEach(k => {
+  const b = el("button","tecla",k); if(k==="⌫") b.setAttribute("aria-label","Borrar un número");
+  b.onclick = () => {
+    vibrar(10);
+    if(k==="⌫") compra.txt = compra.txt.slice(0,-1);
+    else if(compra.txt.length < 6) compra.txt = (compra.txt + k).replace(/^0+/,"");
+    pintarMonto();
+  };
+  $("#teclado").append(b);
+});
+$("#guardar-compra").onclick = () => {
+  const n = Number(compra.txt||0); if(n<=0) return;
+  const i = compra.insumo;
+  hacer({op:"agregar", mov:nuevoMov({t:"c", cant:0, precio:0, monto:n, que:i.n})});
+  avisar(i.e,"¡Compra guardada!", i.n+", "+peso(n));
+  ir("inicio");
+};
+
+/* ---------- Ventas por mes ---------- */
+function tarjetaResumen(titulo, r, extra){
+  const c = el("div","res"+(extra||""));
+  const h = el("h3"); h.append(document.createTextNode(titulo)); c.append(h);
+  const f1 = el("div","fila in"); f1.append(el("span",null,"🟢 Vendiste ("+piezas(r.n)+")"), el("b",null,peso(r.v)));
+  const f2 = el("div","fila out"); f2.append(el("span",null,"🔴 Gastaste"), el("b",null,peso(r.c)));
+  const f3 = el("div","fila tot"); f3.append(el("span",null,r.g>=0?"💛 Te quedó":"Te faltó"), el("b",null,peso(Math.abs(r.g))));
+  c.append(f1,f2,f3);
+  return c;
+}
+function pintarMeses(){
+  const hoy = new Date(), mesHoy = diaDe(hoy).slice(0,7);
+  const anios = S.movs.map(m=>Number(m.fecha.slice(0,4)));
+  const minA = Math.min(hoy.getFullYear(), ...anios);
+  $("#anio").textContent = anioVisto;
+  $("#anio-menos").disabled = anioVisto <= minA;
+  $("#anio-mas").disabled = anioVisto >= hoy.getFullYear();
+  $("#anio-titulo").textContent = "Mes por mes en " + anioVisto;
+
+  const porMes = MESES.map((_,i) => S.movs.filter(m => m.fecha.slice(0,7) === anioVisto+"-"+dosD(i+1)));
+  const res = porMes.map(sumar);
+  const max = Math.max(1, ...res.map(r=>r.v));
+  const B = $("#barras"), E = $("#meses-et"); B.replaceChildren(); E.replaceChildren();
+  res.forEach((r,i) => {
+    const clave = anioVisto+"-"+dosD(i+1), esActual = clave===mesHoy;
+    const col = el("div","col"+(esActual?" actual":""));
+    col.append(el("span","val", r.v ? corto(r.v) : ""));
+    const bar = el("div","bar"+(r.v?"":" cero")); bar.style.height = r.v ? Math.max(6, r.v/max*120)+"px" : "3px";
+    col.append(bar); B.append(col);
+    E.append(el("span", esActual?"actual":null, cap(MESES[i].slice(0,3))));
+  });
+
+  const L = $("#meses-lista"); L.replaceChildren();
+  let alguno = false;
+  for(let i=11;i>=0;i--){
+    const clave = anioVisto+"-"+dosD(i+1);
+    if(!porMes[i].length && clave!==mesHoy) continue;
+    alguno = true;
+    const card = tarjetaResumen(cap(MESES[i]), res[i], clave===mesHoy?" actual":"");
+    const b = el("button"); b.style.cssText = "display:block;width:100%;padding:0;text-align:left";
+    if(clave===mesHoy) card.querySelector("h3").append(el("small",null,"Este mes"));
+    else card.querySelector("h3").append(el("small",null,"Ver días ›"));
+    b.append(card);
+    b.onclick = () => { mesAbierto = clave; vibrar(15); ir("mes"); };
+    L.append(b);
+  }
+  if(!alguno) L.append(el("div","vacio-msg","No hay cuentas en "+anioVisto+"."));
+}
+$("#anio-menos").onclick = () => { anioVisto--; pintarMeses(); };
+$("#anio-mas").onclick = () => { anioVisto++; pintarMeses(); };
+
+function pintarMes(){
+  if(!mesAbierto) mesAbierto = diaDe(new Date()).slice(0,7);
+  const [y,m] = mesAbierto.split("-").map(Number);
+  $("#mes-titulo").textContent = cap(MESES[m-1]) + " " + y;
+  const movs = S.movs.filter(x => x.fecha.slice(0,7)===mesAbierto);
+  const R = $("#mes-resumen"); R.replaceChildren(tarjetaResumen("Total del mes", sumar(movs)));
+  const porDia = {};
+  movs.forEach(x => (porDia[x.fecha] = porDia[x.fecha] || []).push(x));
+  const L = $("#mes-dias"); L.replaceChildren();
+  const claves = Object.keys(porDia).sort().reverse();
+  if(!claves.length){ L.append(el("div","vacio-msg","No anotaste nada este mes.")); return; }
+  claves.forEach(k => {
+    const lista = porDia[k].sort((a,b)=>b.ts-a.ts), r = sumar(lista);
+    const d = el("details","dia"), s = el("summary");
+    const fecha = k===diaDe(new Date()) ? "Hoy" : cap(fechaDeDia(k).toLocaleDateString("es-MX",{weekday:"long",day:"numeric"}));
+    const izq = el("span"); izq.append(el("span","flecha","▶"), document.createTextNode(" "+fecha));
+    const q = el("span","q",peso(r.v)); q.style.color = "var(--verde)";
+    s.append(izq,q); d.append(s);
+    const ul = el("ul","lista"); lista.forEach(x => ul.append(filaMov(x))); d.append(ul);
+    L.append(d);
+  });
+}
+
+/* ---------- Ajustes ---------- */
+function aplicarTam(){ document.documentElement.classList.toggle("grande", S.tam==="grande"); }
+document.querySelectorAll("[data-tam]").forEach(b => b.onclick = () => { S.tam = b.dataset.tam; guardarLocal(); aplicarTam(); pintarAjustes(); });
+function cambiarProductos(){ S.prodUpd = Date.now(); hacer({op:"productos", productos:S.productos, upd:S.prodUpd}); }
+function pintarAjustes(){
+  document.querySelectorAll("[data-tam]").forEach(b => b.setAttribute("aria-pressed", b.dataset.tam===S.tam));
+  const C = $("#prod-edit"); C.replaceChildren();
+  S.productos.forEach(p => {
+    const w = el("div","ajuste"), g = el("div","prod-edit");
+    const eb = el("button","emo-btn",p.emoji); eb.setAttribute("aria-label","Cambiar dibujito");
+    eb.onclick = () => { p.emoji = EMOJIS_PROD[(EMOJIS_PROD.indexOf(p.emoji)+1) % EMOJIS_PROD.length]; eb.textContent = p.emoji; cambiarProductos(); };
+    const c1 = el("label","campo"); c1.append(document.createTextNode("Nombre"));
+    const i1 = el("input"); i1.value = p.nombre; i1.maxLength = 24;
+    i1.onchange = () => { p.nombre = i1.value.trim() || "Doraditas"; cambiarProductos(); };
+    c1.append(i1);
+    const c2 = el("label","campo precio"); c2.append(document.createTextNode("Precio de cada una  $"));
+    const i2 = el("input"); i2.inputMode = "decimal"; i2.value = p.precio;
+    i2.onchange = () => { const n = Number(String(i2.value).replace(/[^\d.]/g,"")); if(n>0){ p.precio = n; cambiarProductos(); } else i2.value = p.precio; };
+    c2.append(i2);
+    g.append(eb,c1,c2); w.append(g);
+    if(S.productos.length>1){
+      const q = el("button","quitar","Quitar "+p.nombre);
+      q.onclick = () => preguntar("¿Quitar "+p.nombre+" de la lista?\nLas ventas que ya anotaste no se borran.", () => {
+        S.productos = S.productos.filter(x=>x.id!==p.id); cambiarProductos(); pintarAjustes();
+      }, "Sí, quitar");
+      w.append(q);
+    }
+    C.append(w);
+  });
+  pintarNube();
+}
+$("#agregar-prod").onclick = () => {
+  const usados = S.productos.map(p=>p.emoji);
+  S.productos.push({id:uid(), nombre:"Nueva", emoji:EMOJIS_PROD.find(e=>!usados.includes(e))||"🍪", precio:S.productos[0].precio});
+  cambiarProductos(); pintarAjustes();
+};
+$("#borrar-todo").onclick = () => preguntar("¿Borrar TODAS tus ventas y compras?\nNo se pueden recuperar.", () =>
+  preguntar("¿Segura? Se borrará todo, también de la hoja de Google.", () => {
+    hacer({op:"borrarTodo"}); avisar("🧹","Listo","Tus cuentas quedaron en ceros"); ir("inicio");
+  }, "Sí, borrar todo"), "Sí, borrar todo");
+$("#subir-ahora").onclick = () => { vibrar(15); sincronizar(true); };
+
+/* ---------- Avisos ---------- */
+let tAviso;
+function avisar(e,t,s){
+  vibrar([30,40,30]);
+  $("#listo").replaceChildren(el("div","e",e), el("b",null,t), el("span",null,s));
+  $("#capa-listo").hidden = false; clearTimeout(tAviso);
+  tAviso = setTimeout(()=>$("#capa-listo").hidden = true, 1600);
+}
+$("#capa-listo").onclick = () => $("#capa-listo").hidden = true;
+let siFn = null;
+function preguntar(txt, fn, siTxt){
+  $("#pregunta-t").textContent = txt; $("#pregunta-si").textContent = siTxt || "Sí, borrar";
+  siFn = fn; $("#capa-pregunta").hidden = false; vibrar(20);
+}
+$("#pregunta-no").onclick = () => { $("#capa-pregunta").hidden = true; siFn = null; };
+$("#pregunta-si").onclick = () => { $("#capa-pregunta").hidden = true; const f = siFn; siFn = null; if(f) f(); };
+
+/* ---------- Conexión con Google (Apps Script) ---------- */
+let estado = "ok", sincronizando = false;
+function pintarNube(){
+  const n = $("#nube"), f = S.pend.length;
+  let txt, cls;
+  if(!API_URL.startsWith("https://")){ txt = "⚠️ Falta conectar la hoja"; cls = "mal"; }
+  else if(!clave()){ txt = "⚠️ Falta la clave"; cls = "mal"; }
+  else if(estado==="clave"){ txt = "⚠️ La clave no es correcta"; cls = "mal"; }
+  else if(sincronizando){ txt = "⏳ Guardando…"; cls = "falta"; }
+  else if(f && estado==="sinred"){ txt = "📵 Sin internet, se guarda después"; cls = "falta"; }
+  else if(f){ txt = "⏳ Falta subir "+f; cls = "falta"; }
+  else { txt = "☁️ Todo guardado"; cls = "ok"; }
+  n.textContent = txt; n.className = "nube "+cls;
+  const d = $("#nube-detalle");
+  if(d){
+    d.textContent = txt + (S.ultSync ? ". Última vez: " + new Date(S.ultSync).toLocaleString("es-MX",{day:"numeric",month:"short",hour:"numeric",minute:"2-digit"}) : "");
+  }
+}
+async function sincronizar(manual){
+  if(sincronizando || !API_URL.startsWith("https://") || !clave()){ pintarNube(); return; }
+  sincronizando = true; pintarNube();
+  const enviadas = S.pend.slice();
+  try{
+    const r = await fetch(API_URL, {
+      method:"POST",
+      headers:{"Content-Type":"text/plain;charset=utf-8"}, // evita el bloqueo CORS de Apps Script
+      body: JSON.stringify({clave:clave(), ops:enviadas})
+    });
+    const d = await r.json();
+    if(!d.ok){ estado = d.error==="clave" ? "clave" : "error"; }
+    else{
+      estado = "ok";
+      S.pend = S.pend.slice(enviadas.length);
+      S.movs = Array.isArray(d.movs) ? d.movs : S.movs;
+      if(Array.isArray(d.productos) && d.productos.length && (d.prodUpd||0) >= (S.prodUpd||0)){
+        S.productos = d.productos; S.prodUpd = d.prodUpd || S.prodUpd;
+      }
+      S.pend.forEach(aplicar); // lo que se anotó mientras se subía
+      S.ultSync = Date.now();
+      guardarLocal();
+      if(actual==="inicio" || actual==="meses" || actual==="mes") pintar(actual);
+      if(manual) avisar("☁️","Todo guardado","Tus cuentas están en la hoja de Google");
+    }
+  }catch(e){ estado = "sinred"; }
+  sincronizando = false; pintarNube();
+  if(estado==="ok" && S.pend.length) setTimeout(sincronizar, 500);
+}
+window.addEventListener("online", () => sincronizar());
+document.addEventListener("visibilitychange", () => { if(!document.hidden){ if(actual==="inicio") pintarInicio(); sincronizar(); } });
+
+/* ---------- Arranque ---------- */
+aplicarTam();
+ir("inicio");
+sincronizar();
+})();
+</script>
+</body>
+</html>
