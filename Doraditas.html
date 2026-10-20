@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#E9A21F">
+<meta name="theme-color" content="#FFFFFF">
 <title>Mis doraditas</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍪</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -11,33 +11,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#FFF4DE; --surface:#FFFFFF; --ink:#2A1E14; --muted:#7A6450; --line:#EAD9BB;
-  --oro:#E9A21F; --oro-suave:#FCE3AE;
-  --verde:#2E8B3E; --on-verde:#FFFFFF; --verde-suave:#DDF1DF;
-  --rojo:#C9381F; --on-rojo:#FFFFFF; --rojo-suave:#F9DDD6;
-  --sombra:0 3px 0 rgba(90,55,10,.18);
+  --bg:#FFFFFF; --surface:#FFFFFF; --ink:#2A1E14; --muted:#7A6450; --line:#EFE3CC;
+  --oro:#E9A21F; --oro-suave:#FDEBC4;
+  --verde:#2E8B3E; --on-verde:#FFFFFF; --verde-suave:#E2F3E4;
+  --rojo:#C9381F; --on-rojo:#FFFFFF; --rojo-suave:#FBE3DD;
+  --sombra:0 3px 0 rgba(90,55,10,.16);
   color-scheme:light;
   box-sizing:border-box;
   padding-top:env(safe-area-inset-top,0px);
   padding-bottom:env(safe-area-inset-bottom,0px);
-}
-@media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]){
-    --bg:#17110B; --surface:#251C14; --ink:#FFF1DA; --muted:#C2AA8A; --line:#3B2E21;
-    --oro:#F2B33D; --oro-suave:#3B2B12;
-    --verde:#4CC25E; --on-verde:#0D2411; --verde-suave:#173119;
-    --rojo:#FF6E50; --on-rojo:#2E0B04; --rojo-suave:#3B1A12;
-    --sombra:0 3px 0 rgba(0,0,0,.45);
-    color-scheme:dark;
-  }
-}
-:root[data-theme="dark"]{
-  --bg:#17110B; --surface:#251C14; --ink:#FFF1DA; --muted:#C2AA8A; --line:#3B2E21;
-  --oro:#F2B33D; --oro-suave:#3B2B12;
-  --verde:#4CC25E; --on-verde:#0D2411; --verde-suave:#173119;
-  --rojo:#FF6E50; --on-rojo:#2E0B04; --rojo-suave:#3B1A12;
-  --sombra:0 3px 0 rgba(0,0,0,.45);
-  color-scheme:dark;
 }
 html{font-size:18px; scroll-padding-top:env(safe-area-inset-top,0px); -webkit-text-size-adjust:100%}
 *,*::before,*::after{box-sizing:border-box}
@@ -51,6 +33,12 @@ button:focus-visible,summary:focus-visible{outline:3px solid var(--oro); outline
 
 .top{display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:10px}
 .fecha{font-size:1.05rem; font-weight:600; color:var(--muted); margin:0}
+.botones-top{display:flex; gap:8px}
+@keyframes girar{to{transform:rotate(360deg)}}
+.icono-btn.girando span{display:inline-block; animation:girar .8s linear infinite}
+.hoy-tira{display:flex; align-items:center; gap:12px; background:var(--oro-suave); border-radius:18px; padding:10px 14px; margin-bottom:18px; font-weight:600}
+.hoy-tira .e{font-size:1.8rem}
+.hoy-tira b{font-weight:800}
 .icono-btn{width:52px; height:52px; border-radius:16px; background:var(--surface); border:2px solid var(--line);
   font-size:1.5rem; display:grid; place-items:center; flex:none}
 .regresar{display:flex; align-items:center; gap:8px; height:52px; padding:0 18px 0 12px; border-radius:16px;
@@ -80,11 +68,6 @@ h2{font-size:1.25rem; margin:22px 0 8px; font-weight:800}
 .pastilla .n{font-size:.85rem; font-weight:600; display:block}
 .pastilla.v-in{background:var(--verde-suave); color:var(--verde)}
 .pastilla.v-out{background:var(--rojo-suave); color:var(--rojo)}
-.mes-btn{width:100%; display:flex; align-items:center; gap:12px; text-align:left; background:var(--oro-suave);
-  border-radius:18px; padding:10px 14px; margin-bottom:18px; font-weight:600}
-.mes-btn .e{font-size:1.8rem}
-.mes-btn b{font-weight:800}
-.mes-btn .fl{margin-left:auto; font-size:1.3rem; color:var(--muted)}
 
 .grandes{display:grid; gap:14px}
 .gran{display:flex; align-items:center; gap:16px; width:100%; min-height:104px; padding:12px 20px; border-radius:26px;
@@ -222,12 +205,15 @@ details.dia .mov{border-width:1px}
 <section class="pantalla" id="p-inicio">
   <div class="top">
     <p class="fecha" id="hoy-fecha"></p>
-    <button class="icono-btn" data-ir="precio" aria-label="Cambiar precio">⚙️</button>
+    <div class="botones-top">
+      <button class="icono-btn" id="actualizar" aria-label="Actualizar"><span>🔄</span></button>
+      <button class="icono-btn" data-ir="precio" aria-label="Cambiar precio">⚙️</button>
+    </div>
   </div>
   <div class="comal" id="comal"></div>
   <div class="centro"><span class="nube" id="nube"></span></div>
   <div class="pastillas" id="pastillas"></div>
-  <button class="mes-btn" data-ir="meses" id="mes-btn"></button>
+  <div class="hoy-tira" id="hoy-tira"></div>
   <div class="grandes">
     <button class="gran vender" data-ir="vender"><span class="emo">🍪</span><span>Vendí<small>Anotar una venta</small></span></button>
     <button class="gran comprar" data-ir="comprar"><span class="emo">🛒</span><span>Compré<small>Anotar un gasto</small></span></button>
@@ -434,22 +420,27 @@ function pintarInicio(){
   $("#hoy-fecha").textContent = "Hoy es " + ahora.toLocaleDateString("es-MX",{weekday:"long",day:"numeric",month:"long"});
   const movs = S.movs.filter(m => m.fecha===hoy).sort((a,b)=>b.ts-a.ts);
   const r = sumar(movs);
-  const comal = $("#comal"); comal.replaceChildren(); comal.classList.toggle("vacio", !movs.length);
-  if(!movs.length) comal.append(el("span","et","Hoy llevas"), el("span","num","$0"), el("span","sub","Toca Vendí o Compré para empezar"));
-  else if(r.g>=0) comal.append(el("span","et","Hoy te quedó"), el("span","num",peso(r.g)), el("span","sub","de ganancia"));
-  else comal.append(el("span","et","Hoy llevas"), el("span","num",peso(r.g)), el("span","sub","gastaste más de lo que vendiste"));
+  const movsMes = S.movs.filter(m => m.fecha.slice(0,7)===mes);
+  const rm = sumar(movsMes);
+  const nombreMes = MESES[ahora.getMonth()];
+
+  const comal = $("#comal"); comal.replaceChildren(); comal.classList.toggle("vacio", !movsMes.length);
+  comal.append(el("span","et","Ganancia este mes"));
+  if(!movsMes.length) comal.append(el("span","num","$0"), el("span","sub","Toca Vendí o Compré para empezar"));
+  else if(rm.g>=0) comal.append(el("span","num",peso(rm.g)), el("span","sub",cap(nombreMes)));
+  else comal.append(el("span","num",peso(rm.g)), el("span","sub","gastaste más de lo que vendiste"));
 
   const p = $("#pastillas"); p.replaceChildren();
-  const a = el("div","pastilla v-in"); a.append(el("span","k","🟢 Vendiste"), el("span","v",peso(r.v)), el("span","n",piezas(r.n)));
-  const b = el("div","pastilla v-out"); b.append(el("span","k","🔴 Gastaste"), el("span","v",peso(r.c)), el("span","n",r.nc===1?"1 compra":r.nc+" compras"));
+  const a = el("div","pastilla v-in"); a.append(el("span","k","🟢 Vendiste este mes"), el("span","v",peso(rm.v)), el("span","n",piezas(rm.n)));
+  const b = el("div","pastilla v-out"); b.append(el("span","k","🔴 Gastaste este mes"), el("span","v",peso(rm.c)), el("span","n",rm.nc===1?"1 compra":rm.nc+" compras"));
   p.append(a,b);
 
-  const rm = sumar(S.movs.filter(m=>m.fecha.slice(0,7)===mes));
-  const mb = $("#mes-btn"); mb.replaceChildren();
+  const ht = $("#hoy-tira"); ht.replaceChildren();
   const t = el("span");
-  t.append(document.createTextNode("En "+MESES[ahora.getMonth()]+" llevas "), el("b",null,peso(rm.v)),
-           document.createTextNode(" vendidos y te "+(rm.g>=0?"quedan ":"faltan ")), el("b",null,peso(Math.abs(rm.g))));
-  mb.append(el("span","e","📅"), t, el("span","fl","›"));
+  if(!movs.length) t.append(document.createTextNode("Hoy todavía no anotas nada"));
+  else t.append(document.createTextNode("Hoy vendiste "), el("b",null,peso(r.v)),
+                document.createTextNode(" y gastaste "), el("b",null,peso(r.c)));
+  ht.append(el("span","e","☀️"), t);
 
   const l = $("#lista-hoy"); l.replaceChildren();
   if(!movs.length) l.append(el("li","vacio-msg","Todavía no anotas nada hoy."));
@@ -649,7 +640,7 @@ $("#pregunta-no").onclick = () => { $("#capa-pregunta").hidden = true; siFn = nu
 $("#pregunta-si").onclick = () => { $("#capa-pregunta").hidden = true; const f = siFn; siFn = null; if(f) f(); };
 
 /* ---------- Conexión con Google (Apps Script) ---------- */
-let estado = "ok", sincronizando = false;
+let estado = "ok", sincronizando = false, enCurso = null;
 function pintarNube(){
   const n = $("#nube"), f = S.pend.length;
   let txt, cls;
@@ -661,8 +652,13 @@ function pintarNube(){
   else { txt = "☁️ Todo guardado"; cls = "ok"; }
   n.textContent = txt; n.className = "nube "+cls;
 }
-async function sincronizar(){
-  if(sincronizando || !API_URL.startsWith("https://")){ pintarNube(); return; }
+function sincronizar(){
+  if(!API_URL.startsWith("https://")){ pintarNube(); return Promise.resolve(); }
+  if(enCurso) return enCurso;
+  enCurso = subir().finally(() => { enCurso = null; });
+  return enCurso;
+}
+async function subir(){
   sincronizando = true; pintarNube();
   const enviadas = S.pend.slice();
   try{
@@ -690,6 +686,15 @@ async function sincronizar(){
   if(estado==="ok" && S.pend.length) setTimeout(sincronizar, 500);
 }
 window.addEventListener("online", () => sincronizar());
+$("#actualizar").onclick = async () => {
+  const b = $("#actualizar"); if(b.classList.contains("girando")) return;
+  b.classList.add("girando"); vibrar(15);
+  await sincronizar();
+  b.classList.remove("girando");
+  if(estado==="ok") avisar("🔄","Actualizado","Ya tienes lo último de la hoja");
+  else if(estado==="sinred") avisar("📵","Sin internet","Se guardará cuando regrese la señal");
+  else avisar("⚠️","No se pudo conectar","Intenta de nuevo en un momento");
+};
 document.addEventListener("visibilitychange", () => { if(!document.hidden){ if(actual==="inicio") pintarInicio(); sincronizar(); } });
 
 /* ---------- Arranque ---------- */
