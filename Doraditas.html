@@ -32,52 +32,51 @@ body{margin:0; background:var(--bg); color:var(--ink);
   line-height:1.3; -webkit-tap-highlight-color:transparent; overscroll-behavior-y:contain}
 button{font:inherit; color:inherit; cursor:pointer; border:0; background:none; touch-action:manipulation}
 button:focus-visible,summary:focus-visible{outline:3px solid var(--oro); outline-offset:3px}
-.app{max-width:480px; margin:0 auto; padding:14px 16px 32px}
+.app{max-width:480px; margin:0 auto; padding:10px 14px 28px}
 .pantalla[hidden]{display:none}
 
-.top{display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:10px}
-.fecha{font-size:1.05rem; font-weight:600; color:var(--muted); margin:0}
+.top{display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:6px}
+.fecha{font-size:1rem; font-weight:700; color:var(--muted); margin:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
 .botones-top{display:flex; gap:8px}
 @keyframes girar{to{transform:rotate(360deg)}}
 .icono-btn.girando span{display:inline-block; animation:girar .8s linear infinite}
-.hoy-tira{display:flex; align-items:center; gap:12px; background:var(--oro-suave); border-radius:18px; padding:10px 14px; margin-bottom:18px; font-weight:600}
-.hoy-tira .e{font-size:1.8rem}
+.hoy-tira{display:flex; align-items:center; gap:10px; background:var(--oro-suave); border-radius:16px; padding:7px 12px; margin-bottom:12px; font-weight:600; font-size:.95rem; line-height:1.2}
+.hoy-tira .e{font-size:1.4rem}
 .hoy-tira b{font-weight:800}
-.icono-btn{width:52px; height:52px; border-radius:16px; background:var(--surface); border:2px solid var(--line);
-  font-size:1.5rem; display:grid; place-items:center; flex:none}
+.icono-btn{width:46px; height:46px; border-radius:14px; background:var(--surface); border:2px solid var(--line);
+  font-size:1.35rem; display:grid; place-items:center; flex:none}
 .regresar{display:flex; align-items:center; gap:8px; height:52px; padding:0 18px 0 12px; border-radius:16px;
   background:var(--surface); border:2px solid var(--line); font-weight:700; font-size:1.05rem}
 h1{font-size:1.7rem; line-height:1.1; margin:4px 0 14px; font-weight:800}
 h2{font-size:1.25rem; margin:22px 0 8px; font-weight:800}
 
-.nube{display:inline-flex; align-items:center; gap:6px; font-size:.88rem; font-weight:700; padding:4px 12px;
+.nube{display:inline-flex; align-items:center; gap:6px; font-size:.8rem; font-weight:700; padding:2px 12px;
   border-radius:99px; background:var(--surface); border:2px solid var(--line); color:var(--muted)}
 .nube.ok{color:var(--verde)} .nube.falta{color:var(--oro)} .nube.mal{color:var(--rojo)}
-.centro{text-align:center; margin:-6px 0 14px}
+.centro{text-align:center; margin:0 0 10px}
 
-.comal{position:relative; margin:4px auto 18px; width:min(74vw,280px); aspect-ratio:1; border-radius:50%;
+.comal{position:relative; margin:2px auto 14px; width:min(54vw,210px); aspect-ratio:1; border-radius:50%;
   background:radial-gradient(circle at 38% 34%, #FFE29A 0 18%, #F6C14E 46%, #E29A1C 78%, #B66F0E 100%);
-  box-shadow:inset 0 -8px 0 rgba(120,60,0,.25), 0 10px 0 var(--line);
+  box-shadow:inset 0 -6px 0 rgba(120,60,0,.25), 0 7px 0 var(--line);
   display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; color:#3A2204}
-.comal::before{content:""; position:absolute; inset:9%; border-radius:50%; border:3px dashed rgba(255,255,255,.55)}
-.comal .et{font-size:1.05rem; font-weight:700; position:relative}
-.comal .num{font-size:3.1rem; font-weight:800; line-height:1; letter-spacing:-.02em; position:relative; margin:4px 0}
-.comal .sub{font-size:.95rem; font-weight:600; position:relative; max-width:70%}
-.comal.vacio .num{font-size:2.2rem}
+.comal::before{content:""; position:absolute; inset:8%; border-radius:50%; border:3px dashed rgba(255,255,255,.55)}
+.comal .et{font-size:.88rem; font-weight:700; position:relative; max-width:82%; line-height:1.1}
+.comal .num{font-size:2.6rem; font-weight:800; line-height:1; letter-spacing:-.02em; position:relative; margin:4px 0 2px}
+.comal .sub{font-size:.85rem; font-weight:600; position:relative; max-width:66%; line-height:1.1}
 
-.pastillas{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:10px}
-.pastilla{border-radius:18px; padding:10px 12px; font-weight:700}
-.pastilla .k{font-size:.9rem; display:block}
-.pastilla .v{font-size:1.5rem; font-weight:800; display:block; line-height:1.1}
+.pastillas{display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:8px}
+.pastilla{border-radius:16px; padding:8px 12px; font-weight:700; min-width:0}
+.pastilla .k{font-size:.9rem; display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.pastilla .v{font-size:1.45rem; font-weight:800; display:block; line-height:1.1}
 .pastilla .n{font-size:.85rem; font-weight:600; display:block}
 .pastilla.v-in{background:var(--verde-suave); color:var(--verde)}
 .pastilla.v-out{background:var(--rojo-suave); color:var(--rojo)}
 
-.grandes{display:grid; gap:14px}
-.gran{display:flex; align-items:center; gap:16px; width:100%; min-height:104px; padding:12px 20px; border-radius:26px;
-  font-size:1.9rem; font-weight:800; text-align:left; box-shadow:var(--sombra); transition:transform .08s}
+.grandes{display:grid; gap:10px}
+.gran{display:flex; align-items:center; gap:14px; width:100%; min-height:84px; padding:10px 18px; border-radius:24px;
+  font-size:1.75rem; font-weight:800; line-height:1.1; text-align:left; box-shadow:var(--sombra); transition:transform .08s}
 .gran:active{transform:translateY(3px); box-shadow:none}
-.gran .emo{font-size:3rem; line-height:1; width:64px; height:64px; display:grid; place-items:center;
+.gran .emo{font-size:2.4rem; line-height:1; width:56px; height:56px; display:grid; place-items:center;
   background:rgba(255,255,255,.22); border-radius:20px; flex:none}
 .gran small{display:block; font-size:1rem; font-weight:600; opacity:.9; line-height:1.15}
 .gran.vender{background:var(--verde); color:var(--on-verde)}
@@ -86,16 +85,16 @@ h2{font-size:1.25rem; margin:22px 0 8px; font-weight:800}
   font-weight:700; font-size:1.1rem; margin-top:14px; display:flex; align-items:center; justify-content:center; gap:10px}
 
 .lista{display:grid; gap:8px; margin:0; padding:0; list-style:none}
-.mov{display:flex; align-items:center; gap:12px; background:var(--surface); border:2px solid var(--line);
+.mov{display:flex; align-items:center; gap:10px; background:var(--surface); border:2px solid var(--line);
   border-radius:18px; padding:8px 8px 8px 10px}
-.mov .em{font-size:1.8rem; width:50px; height:50px; border-radius:14px; display:grid; place-items:center; flex:none}
+.mov .em{font-size:1.5rem; width:44px; height:44px; border-radius:14px; display:grid; place-items:center; flex:none}
 .mov.v .em{background:var(--verde-suave)} .mov.c .em{background:var(--rojo-suave)}
 .mov .tx{flex:1; min-width:0}
-.mov .tx b{display:block; font-size:1.05rem; line-height:1.15}
+.mov .tx b{display:block; font-size:.98rem; line-height:1.15}
 .mov .tx span{font-size:.88rem; color:var(--muted)}
-.mov .m{font-weight:800; font-size:1.25rem; white-space:nowrap}
+.mov .m{font-weight:800; font-size:1.15rem; white-space:nowrap}
 .mov.v .m{color:var(--verde)} .mov.c .m{color:var(--rojo)}
-.borrar{width:44px; height:44px; border-radius:12px; font-size:1.2rem; display:grid; place-items:center; flex:none; opacity:.75}
+.borrar{width:40px; height:44px; border-radius:12px; font-size:1.2rem; display:grid; place-items:center; flex:none; opacity:.75}
 .vacio-msg{background:var(--surface); border:2px dashed var(--line); border-radius:18px; padding:18px; text-align:center;
   color:var(--muted); font-weight:600}
 
@@ -421,7 +420,7 @@ function filaMov(m){
 /* ---------- Inicio ---------- */
 function pintarInicio(){
   const ahora = new Date(), hoy = diaDe(ahora), mes = hoy.slice(0,7);
-  $("#hoy-fecha").textContent = "Hoy es " + ahora.toLocaleDateString("es-MX",{weekday:"long",day:"numeric",month:"long"});
+  $("#hoy-fecha").textContent = cap(ahora.toLocaleDateString("es-MX",{weekday:"long",day:"numeric",month:"long"}));
   const movs = S.movs.filter(m => m.fecha===hoy).sort((a,b)=>b.ts-a.ts);
   const r = sumar(movs);
   const movsMes = S.movs.filter(m => m.fecha.slice(0,7)===mes);
@@ -430,20 +429,20 @@ function pintarInicio(){
 
   const comal = $("#comal"); comal.replaceChildren(); comal.classList.toggle("vacio", !movsMes.length);
   comal.append(el("span","et","Ganancia este mes"));
-  if(!movsMes.length) comal.append(el("span","num","$0"), el("span","sub","Toca Vendí o Compré para empezar"));
+  if(!movsMes.length) comal.append(el("span","num","$0"), el("span","sub",cap(nombreMes)));
   else if(rm.g>=0) comal.append(el("span","num",peso(rm.g)), el("span","sub",cap(nombreMes)));
-  else comal.append(el("span","num",peso(rm.g)), el("span","sub","gastaste más de lo que vendiste"));
+  else comal.append(el("span","num",peso(rm.g)), el("span","sub","Gastaste más de lo que vendiste"));
 
   const p = $("#pastillas"); p.replaceChildren();
-  const a = el("div","pastilla v-in"); a.append(el("span","k","🟢 Vendiste este mes"), el("span","v",peso(rm.v)), el("span","n",piezas(rm.n)));
-  const b = el("div","pastilla v-out"); b.append(el("span","k","🔴 Gastaste este mes"), el("span","v",peso(rm.c)), el("span","n",rm.nc===1?"1 compra":rm.nc+" compras"));
+  const a = el("div","pastilla v-in"); a.append(el("span","k","🟢 Vendiste"), el("span","v",peso(rm.v)), el("span","n",piezas(rm.n)));
+  const b = el("div","pastilla v-out"); b.append(el("span","k","🔴 Gastaste"), el("span","v",peso(rm.c)), el("span","n",rm.nc===1?"1 compra":rm.nc+" compras"));
   p.append(a,b);
 
   const ht = $("#hoy-tira"); ht.replaceChildren();
   const t = el("span");
   if(!movs.length) t.append(document.createTextNode("Hoy todavía no anotas nada"));
-  else t.append(document.createTextNode("Hoy vendiste "), el("b",null,peso(r.v)),
-                document.createTextNode(" y gastaste "), el("b",null,peso(r.c)));
+  else t.append(document.createTextNode("Hoy: vendiste "), el("b",null,peso(r.v)),
+                document.createTextNode(", gastaste "), el("b",null,peso(r.c)));
   ht.append(el("span","e","☀️"), t);
 
   const l = $("#lista-hoy"); l.replaceChildren();
