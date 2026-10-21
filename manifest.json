@@ -1,7 +1,7 @@
 {
   "name": "Mis doraditas",
   "short_name": "Doraditas",
-  "start_url": "./",
+  "start_url": "./Doraditas.html",
   "scope": "./",
   "display": "standalone",
   "background_color": "#FFFFFF",
